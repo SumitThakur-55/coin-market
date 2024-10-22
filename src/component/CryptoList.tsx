@@ -67,15 +67,15 @@ function CryptoList() {
                 <table className="min-w-full table-auto text-white bg-[#222531] rounded-xl overflow-hidden">
                     <thead className="bg-[#0D1421]">
                         <tr className="text-left text-md uppercase tracking-wider">{/* Remove whitespace between th elements */}
-                            <th className="px-6 py-8">#</th>
-                            <th className="px-6 py-8">Name</th>
-                            <th className="px-6 py-8">Price</th>
-                            <th className="px-6 py-8">1h %</th>
-                            <th className="px-6 py-8">24h %</th>
-                            <th className="px-6 py-8">7d %</th>
-                            <th className="px-6 py-8">Market Cap</th>
-                            <th className="px-6 py-8">Volume (24h)</th>
-                            <th className="px-6 py-8">Circulating Supply</th>
+                            <th className="px-5 py-8">#</th>
+                            <th className="px-5 py-8">Name</th>
+                            <th className="px-5 py-8">Price</th>
+                            <th className="px-5 py-8">1h %</th>
+                            <th className="px-5 py-8">24h %</th>
+                            <th className="px-5 py-8">7d %</th>
+                            <th className="px-5 py-8">Market Cap</th>
+                            <th className="px-5 py-8">Volume (24h)</th>
+                            <th className="px-5 py-8">Circulating Supply</th>
                         </tr>
                     </thead>
                     <tbody>{/* Remove whitespace between tr elements */}
@@ -114,7 +114,7 @@ function CryptoList() {
                 <button
                     disabled={currentPage === 1}
                     onClick={() => setCurrentPage(prev => prev - 1)}
-                    className="bg-blue-500 text-white px-4 py-2 rounded disabled:opacity-50"
+                    className="text-gray-900 bg-gray-100 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 me-2 mb-2"
                 >
                     Previous
                 </button>
@@ -122,7 +122,7 @@ function CryptoList() {
                 <button
                     disabled={currentPage === totalPages}
                     onClick={() => setCurrentPage(prev => prev + 1)}
-                    className="bg-blue-500 text-white px-4 py-2 rounded disabled:opacity-50"
+                    className="text-gray-900 bg-gray-100 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 me-2 mb-2"
                 >
                     Next
                 </button>
