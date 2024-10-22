@@ -1,11 +1,11 @@
-// import React from 'react'
-// import CryptoList from './CryptoList'
+
+import CryptoList from './CryptoList'
 
 
 const HomePage = () => {
     return (
         <div className='pb-10'>
-            {/* <CryptoList /> */}
+            <CryptoList />
         </div >
     )
 }
