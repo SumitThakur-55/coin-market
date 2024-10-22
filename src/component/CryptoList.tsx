@@ -78,10 +78,12 @@ function CryptoList() {
                             <th className="px-5 py-8">Circulating Supply</th>
                         </tr>
                     </thead>
-                    <tbody>{/* Remove whitespace between tr elements */}
+                    <tbody>
                         {currentData.map((crypto, index) => (
-                            <tr key={crypto.id} className="hover:bg-[#292D3E] text-md tracking-wide">{/* Remove whitespace between td elements */}
-                                <td className="px-6 py-8 text-white">{startIndex + index + 1}</td>
+                            <tr key={crypto.id} className="hover:bg-[#292D3E] text-md tracking-wide">
+                                <td className="px-6 py-8 text-white">
+                                    <Link to={`/coins/${crypto.id}`}>{startIndex + index + 1}</Link>
+                                </td>
                                 <td className="px-6 py-8 flex items-center text-white">
                                     <Link to={`/coins/${crypto.id}`} className="w-full h-full flex items-center">
                                         <img
@@ -92,22 +94,31 @@ function CryptoList() {
                                         {crypto.name} <span className="text-gray-400 ml-1">({crypto.symbol})</span>
                                     </Link>
                                 </td>
-                                <td className="px-6 py-8">${crypto.quote.USD.price.toFixed(2)}</td>
+                                <td className="px-6 py-8">
+                                    <Link to={`/coins/${crypto.id}`}>${crypto.quote.USD.price.toFixed(2)}</Link>
+                                </td>
                                 <td className={`px-6 py-8 ${crypto.quote.USD.percent_change_1h >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                                    {crypto.quote.USD.percent_change_1h.toFixed(2)}%
+                                    <Link to={`/coins/${crypto.id}`}>{crypto.quote.USD.percent_change_1h.toFixed(2)}%</Link>
                                 </td>
                                 <td className={`px-6 py-8 ${crypto.quote.USD.percent_change_24h >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                                    {crypto.quote.USD.percent_change_24h.toFixed(2)}%
+                                    <Link to={`/coins/${crypto.id}`}>{crypto.quote.USD.percent_change_24h.toFixed(2)}%</Link>
                                 </td>
                                 <td className={`px-6 py-8 ${crypto.quote.USD.percent_change_7d >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                                    {crypto.quote.USD.percent_change_7d.toFixed(2)}%
+                                    <Link to={`/coins/${crypto.id}`}>{crypto.quote.USD.percent_change_7d.toFixed(2)}%</Link>
                                 </td>
-                                <td className="px-6 py-8">${crypto.quote.USD.market_cap.toLocaleString()}</td>
-                                <td className="px-6 py-8">${crypto.quote.USD.volume_24h.toLocaleString()}</td>
-                                <td className="px-6 py-8">{crypto.circulating_supply.toLocaleString()} {crypto.symbol}</td>
+                                <td className="px-6 py-8">
+                                    <Link to={`/coins/${crypto.id}`}>${crypto.quote.USD.market_cap.toLocaleString()}</Link>
+                                </td>
+                                <td className="px-6 py-8">
+                                    <Link to={`/coins/${crypto.id}`}>${crypto.quote.USD.volume_24h.toLocaleString()}</Link>
+                                </td>
+                                <td className="px-6 py-8">
+                                    <Link to={`/coins/${crypto.id}`}>{crypto.circulating_supply.toLocaleString()} {crypto.symbol}</Link>
+                                </td>
                             </tr>
                         ))}
                     </tbody>
+
                 </table>
             </div>
             <div className="flex justify-between items-center mt-4">
