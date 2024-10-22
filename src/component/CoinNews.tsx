@@ -69,7 +69,7 @@ const CoinNews: React.FC<CoinNewsProps> = ({
             setLoading(true);
             setError(null);
 
-            const response = await fetch(`http://localhost:5000/api/crypto-news?currency=${name.toLowerCase()}&filter=${selectedFilter}&region=${region}&kind=${kind}`, {
+            const response = await fetch(`https://coin-market-backend-production.up.railway.app/api/crypto-news?currency=${name.toLowerCase()}&filter=${selectedFilter}&region=${region}&kind=${kind}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

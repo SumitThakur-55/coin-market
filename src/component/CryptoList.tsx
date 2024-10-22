@@ -29,7 +29,7 @@ function CryptoList() {
     useEffect(() => {
         async function fetchData() {
             try {
-                const response = await fetch('http://localhost:5000/api/coin-data');
+                const response = await fetch('https://coin-market-backend-production.up.railway.app/api/coin-data');
                 if (!response.ok) {
                     throw new Error('Failed to fetch data');
                 }
