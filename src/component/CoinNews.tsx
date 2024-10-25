@@ -127,10 +127,10 @@ const CoinNews: React.FC<CoinNewsProps> = ({
     }
 
     return (
-        <div className="space-y-4 bg-[#323546]">
+        <div className="space-y-4 bg-[#151c2b]">
             <div className="flex items-center text-white justify-between">
                 <h2 className="text-2xl font-bold">
-                    {selectedFilter.charAt(0).toUpperCase() + selectedFilter.slice(1)} News for {name}
+                    {selectedFilter.charAt(0).toUpperCase() + selectedFilter.slice(1)} News for {name.toUpperCase()}
                 </h2>
                 <div className="flex items-center">
                     <select

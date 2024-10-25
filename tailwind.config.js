@@ -6,7 +6,15 @@ export default {
   ],
   theme: {
     extend: {},
+    screens: {
+      'sm': '1024px',
+      'md': '768px',
+      'lg': '1280px',
+      'xl': '1440px',
+    },
   },
-  plugins: [],
+  plugins: [
+    require('tailwind-scrollbar-hide'),
+  ],
 }
 
