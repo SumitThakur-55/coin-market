@@ -41,7 +41,7 @@ function CryptoList() {
     useEffect(() => {
         async function fetchData() {
             try {
-                const response = await fetch('http://localhost:5000/api/coin-data');
+                const response = await fetch('https://coin-market-backend-production.up.railway.app/api/coin-data');
                 if (!response.ok) {
                     const errorText = await response.text();
                     throw new Error(`Failed to fetch data: ${response.status} ${response.statusText}. ${errorText}`);
@@ -60,6 +60,10 @@ function CryptoList() {
 
     if (loading) {
         return <p className="text-white text-2xl text-center py-10">Loading...</p>;
+    }
+
+    if (error) {
+        return <p className="text-red-500 text-xl text-center py-10">{error}</p>; // Display error message
     }
 
     if (!cryptoData) {
@@ -93,7 +97,7 @@ function CryptoList() {
                         </tr>
                     </thead>
                     <tbody>
-                        {currentData.map((crypto, index) => (
+                        {currentData.map((crypto) => (
                             <tr key={crypto.id} className="hover:bg-[#292D3E] text-md tracking-wide">
                                 <td className="px-6 py-8 text-white">
                                     <Link to={`/coins/${crypto.id}`}>{crypto.market_cap_rank}</Link>
