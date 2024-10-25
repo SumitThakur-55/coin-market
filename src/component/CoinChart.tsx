@@ -29,6 +29,7 @@ ChartJS.register(
 interface CoinChartProps {
     coinId: string;
     currentPrice: number;
+
 }
 
 interface ChartData {
@@ -195,7 +196,7 @@ const CoinChart: React.FC<CoinChartProps> = ({ coinId, currentPrice }) => {
                     color: '#6B7280',
                     maxTicksLimit: 6,
                     font: {
-                        size: 10,
+                        size: 14,
                     },
                 },
             },
@@ -204,7 +205,7 @@ const CoinChart: React.FC<CoinChartProps> = ({ coinId, currentPrice }) => {
                 position: 'right',
                 grid: {
                     color: 'rgba(107, 114, 128, 0.1)',
-                    drawBorder: false,
+                    drawOnChartArea: true,
                 },
                 ticks: {
                     color: '#6B7280',
@@ -212,7 +213,7 @@ const CoinChart: React.FC<CoinChartProps> = ({ coinId, currentPrice }) => {
                         return '$' + value.toLocaleString();
                     },
                     font: {
-                        size: 10,
+                        size: 14,
                     },
                     padding: 8,
                 },
@@ -229,40 +230,44 @@ const CoinChart: React.FC<CoinChartProps> = ({ coinId, currentPrice }) => {
     if (!chartData) return <div className="mt-8 bg-[#1E2633] rounded-xl border-2 border-gray-500 p-4 m-2 mx-4">No chart data available</div>;
 
     return (
-        <div className="my-8  bg-[#0D1421] rounded-xl border-2 border-gray-500 p-4 m-2 mx-4">
-            <div className="flex justify-between items-center mb-4">
-                <div className="flex justify-start space-x-2">
-                    <button
-                        className={`px-3 py-1 rounded ${chartType === 'price' ? 'bg-[#151c2b] border-2 border-gray-500 text-white' : 'bg-gray-300 text-gray-700'}`}
-                        onClick={() => setChartType('price')}
-                    >
-                        Price
-                    </button>
-                    <button
-                        className={`px-3 py-1 rounded ${chartType === 'market_cap' ? 'bg-[#151c2b] border-2 border-gray-500 text-white' : 'bg-gray-300 text-gray-700'}`}
-                        onClick={() => setChartType('market_cap')}
-                    >
-                        Market Cap
-                    </button>
-                    <button
-                        className={`px-3 py-1 rounded ${chartType === 'volume' ? 'bg-[#151c2b] border-2 border-gray-500 text-white' : 'bg-gray-300 text-gray-700'}`}
-                        onClick={() => setChartType('volume')}
-                    >
-                        Volume
-                    </button>
+        <div>
+            <h2 className="m-2 text-3xl font-bold text-white mb-4 ">{coinId.charAt(0).toUpperCase() + coinId.slice(1)} Price Chart</h2>
+            <div className="my-8  bg-[#0D1421] rounded-xl border-2 border-gray-500 p-4 m-2 mx-4">
+
+                <div className="flex justify-between items-center mb-4">
+                    <div className="flex justify-start space-x-2">
+                        <button
+                            className={`px-3 py-1 rounded ${chartType === 'price' ? 'bg-gray-300 text-gray-700' : 'bg-[#151c2b] border-2 border-gray-500 text-white'}`}
+                            onClick={() => setChartType('price')}
+                        >
+                            Price
+                        </button>
+                        <button
+                            className={`px-3 py-1 rounded ${chartType === 'market_cap' ? 'bg-gray-300 text-gray-700' : 'bg-[#151c2b] border-2 border-gray-500 text-white'}`}
+                            onClick={() => setChartType('market_cap')}
+                        >
+                            Market Cap
+                        </button>
+                        <button
+                            className={`px-3 py-1 rounded ${chartType === 'volume' ? 'bg-gray-300 text-gray-700' : 'bg-[#151c2b] border-2 border-gray-500 text-white'}`}
+                            onClick={() => setChartType('volume')}
+                        >
+                            Volume
+                        </button>
+                    </div>
+                    <div className="text-white">
+                        Current Price: ${currentPrice.toLocaleString()}
+                    </div>
                 </div>
-                <div className="text-white">
-                    Current Price: ${currentPrice.toLocaleString()}
+                <div style={{ height: '400px' }}> {/* Set a fixed height for the chart container */}
+                    {prepareChartData && (
+                        <Line
+                            options={chartOptions}
+                            data={prepareChartData}
+                            key={`${coinId}-${chartType}`} // Add this line
+                        />
+                    )}
                 </div>
-            </div>
-            <div style={{ height: '400px' }}> {/* Set a fixed height for the chart container */}
-                {prepareChartData && (
-                    <Line
-                        options={chartOptions}
-                        data={prepareChartData}
-                        key={`${coinId}-${chartType}`} // Add this line
-                    />
-                )}
             </div>
         </div>
     );

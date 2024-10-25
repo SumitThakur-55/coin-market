@@ -1,7 +1,6 @@
 // CoinDetail.tsx
 import { useEffect, useState } from 'react';
 import numeral from 'numeral';
-import CoinChart from './CoinChart';
 
 
 interface CoinData {
@@ -297,7 +296,7 @@ const CoinDetail = ({ id, onCoinName, onCurrentPrice }: CoinDetailProps) => {
                             <div className='flex flex-wrap gap-2'>
                                 {coin.links.official_forum_url.slice(0, 3).map((forum, index) => (
                                     forum && (
-                                        <a key={index} href={forum} target="_blank" rel="noopener noreferrer" className='text-white bg-gray-700 px-2 py-1 rounded-full text-sm text-blue-500 hover:bg-gray-600 transition-colors duration-200'>
+                                        <a key={index} href={forum} target="_blank" rel="noopener noreferrer" className='text-white bg-gray-700 px-2 py-1 rounded-full text-sm  hover:bg-gray-600 transition-colors duration-200'>
                                             {new URL(forum).hostname}
                                         </a>
                                     )
@@ -310,7 +309,7 @@ const CoinDetail = ({ id, onCoinName, onCurrentPrice }: CoinDetailProps) => {
                             <p className='text-md text-gray-400 mb-2'>Source Code</p>
                             <div className='flex flex-wrap gap-2'>
                                 {coin.links.repos_url.github.slice(0, 3).map((repo, index) => (
-                                    <a key={index} href={repo} target="_blank" rel="noopener noreferrer" className='text-white bg-gray-700 px-2 py-1 rounded-full text-sm text-blue-500 hover:bg-gray-600 transition-colors duration-200'>
+                                    <a key={index} href={repo} target="_blank" rel="noopener noreferrer" className='text-white bg-gray-700 px-2 py-1 rounded-full text-sm  hover:bg-gray-600 transition-colors duration-200'>
                                         GitHub
                                     </a>
                                 ))}

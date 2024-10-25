@@ -29,8 +29,8 @@ export default function CoinData() {
     };
 
     return (
-        <div className="flex flex-col md:flex-row">
-            <div className="md:w-1/4 bg-[#0D1421] text-white md:h-screen md:sticky top-0 overflow-y-auto scrollbar-hide p-4 md:p-0 no-scrollbar">
+        <div className="flex flex-col sm:flex-row">
+            <div className="sm:w-1/4 bg-[#0D1421] text-white sm:h-screen sm:sticky top-0 overflow-y-auto scrollbar-hide p-4 sm:p-0 no-scrollbar">
                 <CoinDetail
                     id={id}
                     onCoinName={handleCoinName}
