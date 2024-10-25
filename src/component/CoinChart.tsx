@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { Line } from 'react-chartjs-2';
+import axios from 'axios';
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -14,6 +15,7 @@ import {
 } from 'chart.js';
 import annotationPlugin from 'chartjs-plugin-annotation';
 
+// Register Chart.js components
 ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -26,10 +28,10 @@ ChartJS.register(
     annotationPlugin
 );
 
+// Define your props and data types
 interface CoinChartProps {
     coinId: string;
     currentPrice: number;
-
 }
 
 interface ChartData {
@@ -110,10 +112,10 @@ const CoinChart: React.FC<CoinChartProps> = ({ coinId, currentPrice }) => {
                 pointRadius: 0,
                 fill: {
                     target: {
-                        value: currentPrice
+                        value: currentPrice,
                     },
                     above: 'rgba(16, 185, 129, 0.1)', // Light green for area above the current price
-                    below: 'rgba(239, 68, 68, 0.1)'  // Light red for area below the current price
+                    below: 'rgba(239, 68, 68, 0.1)',  // Light red for area below the current price
                 },
             }],
         };
@@ -121,19 +123,21 @@ const CoinChart: React.FC<CoinChartProps> = ({ coinId, currentPrice }) => {
 
     useEffect(() => {
         const fetchChartData = async () => {
-            const url = `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=usd&days=7`;
+            const url = `https://coin-market-backend-production.up.railway.app/api/coin-chart/${coinId}`; // Replace :id with the actual coinId
             console.log('Fetching chart data from:', url);
+            setLoading(true); // Start loading state
+
             try {
-                const response = await fetch(url);
+                const response = await axios.get<ChartData>(url); // Specify expected response type
                 console.log('Chart data response status:', response.status);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const data: ChartData = await response.json();
-                setChartData(data);
+                setChartData(response.data);
             } catch (err) {
                 console.error('Error fetching chart data:', err);
-                setError(err instanceof Error ? err.message : 'Error fetching chart data');
+                if (axios.isAxiosError(err) && err.response) {
+                    setError(err.response.data.error || 'Error fetching chart data');
+                } else {
+                    setError('Error fetching chart data');
+                }
             } finally {
                 setLoading(false);
             }
@@ -224,6 +228,11 @@ const CoinChart: React.FC<CoinChartProps> = ({ coinId, currentPrice }) => {
             mode: 'index',
         },
     };
+
+    if (loading) return <div className="mt-8 bg-[#1E2633] rounded-xl border-2 border-gray-500 p-4 m-2 mx-4">Loading chart...</div>;
+    if (error) return <div className="mt-8 bg-[#1E2633] rounded-xl border-2 border-gray-500 p-4 m-2 mx-4">Error: {error}</div>;
+    if (!chartData) return <div className="mt-8 bg-[#1E2633] rounded-xl border-2 border-gray-500 p-4 m-2 mx-4">No chart data available</div>;
+
 
     if (loading) return <div className="mt-8 bg-[#1E2633] rounded-xl border-2 border-gray-500 p-4 m-2 mx-4">Loading chart...</div>;
     if (error) return <div className="mt-8 bg-[#1E2633] rounded-xl border-2 border-gray-500 p-4 m-2 mx-4">Error: {error}</div>;
