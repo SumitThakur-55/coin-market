@@ -123,7 +123,7 @@ const CoinChart: React.FC<CoinChartProps> = ({ coinId, currentPrice }) => {
 
     useEffect(() => {
         const fetchChartData = async () => {
-            const url = `https://coin-market-backend-production.up.railway.app/api/coin-chart/${coinId}`; // Replace :id with the actual coinId
+            const url = `/api/coin-chart/${coinId}`; // Replace :id with the actual coinId
             console.log('Fetching chart data from:', url);
             setLoading(true); // Start loading state
 

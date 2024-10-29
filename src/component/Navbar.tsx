@@ -1,17 +1,24 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import WalletDetail from "./WalletDetail";
 
 const Navbar = () => {
     const [isNavbarOpen, setIsNavbarOpen] = useState(false);
+    const location = useLocation(); // Access the current path
 
     const handleNavbarToggle = () => {
         setIsNavbarOpen(!isNavbarOpen);
     };
 
+    const getLinkClasses = (path: string) => {
+        return location.pathname === path
+            ? "block py-2 px-3 text-blue-700 bg-transparent md:p-0 dark:text-blue-500"
+            : "block py-2 px-3 text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent";
+    };
+
     return (
         <nav className="bg-white border-gray-200 dark:bg-gray-900 p-2">
             <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-                {/* Logo and Brand */}
                 <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
                     <img
                         src="https://flowbite.com/docs/images/logo.svg"
@@ -23,7 +30,6 @@ const Navbar = () => {
                     </span>
                 </Link>
 
-                {/* Hamburger Menu Button */}
                 <button
                     type="button"
                     onClick={handleNavbarToggle}
@@ -49,17 +55,15 @@ const Navbar = () => {
                     </svg>
                 </button>
 
-                {/* Navbar Links */}
                 <div
-                    className={`w-full  md:block md:w-auto transition-all duration-300 ease-in-out ${isNavbarOpen ? "block" : "hidden"
-                        }`}
+                    className={`w-full md:block md:w-auto transition-all duration-300 ease-in-out ${isNavbarOpen ? "block" : "hidden"}`}
                     id="navbar-default"
                 >
                     <ul className="font-medium text-xl flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
                         <li>
                             <Link
                                 to="/"
-                                className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500"
+                                className={getLinkClasses("/")}
                                 aria-current="page"
                             >
                                 Home
@@ -67,30 +71,29 @@ const Navbar = () => {
                         </li>
                         <li>
                             <Link
-                                to="/"
-                                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                                to="/cryptocurrencies"
+                                className={getLinkClasses("/cryptocurrencies")}
                             >
                                 Cryptocurrencies
                             </Link>
                         </li>
                         <li>
                             <Link
-                                to="/"
-                                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                                to="/learn"
+                                className={getLinkClasses("/learn")}
                             >
                                 Learn
                             </Link>
                         </li>
                         <li>
                             <Link
-                                to="/"
-                                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                                to="/wallet"
+                                className={getLinkClasses("/wallet")}
                             >
-                                Product
+                                Wallet
                             </Link>
                         </li>
                     </ul>
-
                 </div>
             </div>
         </nav>

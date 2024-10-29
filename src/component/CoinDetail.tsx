@@ -139,7 +139,7 @@ const CoinDetail = ({ id, onCoinName, onCurrentPrice }: CoinDetailProps) => {
 
         async function fetchCoinDetail() {
             try {
-                const response = await fetch(`https://coin-market-backend-production.up.railway.app/api/coin/${id}`);
+                const response = await fetch(`/api/coin/${id}`);
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
