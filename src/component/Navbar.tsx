@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import WalletDetail from "./WalletDetail";
+
 
 const Navbar = () => {
     const [isNavbarOpen, setIsNavbarOpen] = useState(false);
