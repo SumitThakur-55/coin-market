@@ -7,11 +7,11 @@ import { RootState, AppDispatch } from '../app/store';
 import { setPublicKey, setConnected, setNetwork, setBalance } from '../feature/basicData/BasicDataSlice';
 
 const Wallet: FC = () => {
+
     const { connected, publicKey, disconnect, wallet } = useWallet();
     const dispatch = useDispatch<AppDispatch>();
     const { network, balance } = useSelector((state: RootState) => state.wallet);
 
-    // Set up a connection to the Solana network
     const connection = new Connection(clusterApiUrl(network));
 
     useEffect(() => {
@@ -39,15 +39,6 @@ const Wallet: FC = () => {
             dispatch(setPublicKey(null));
             dispatch(setConnected(false));
         }
-
-        // Optional: Refetch balance when the wallet state changes
-        const interval = setInterval(() => {
-            if (connected && publicKey) {
-                fetchBalance();
-            }
-        }, 10000); // Refetch every 10 seconds
-
-        return () => clearInterval(interval);
     }, [connected, publicKey, dispatch, connection]);
 
     const handleDisconnect = async () => {
@@ -68,7 +59,7 @@ const Wallet: FC = () => {
 
     return (
         <div className='p-10'>
-            <h1 className="text-2xl font-semibold mb-6" > Wallet Connection</h1>
+            <h1 className="text-2xl font-semibold mb-6">Wallet Connection</h1>
             <WalletMultiButton className="mb-4 w-full" />
             <div className="flex flex-col space-y-4">
                 <div>

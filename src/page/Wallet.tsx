@@ -1,3 +1,4 @@
+
 import WalletDetail from "../component/WalletDetail"
 
 export default function Wallet() {

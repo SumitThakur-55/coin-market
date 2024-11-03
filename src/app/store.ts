@@ -1,8 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 import walletReducer from '../feature/basicData/BasicDataSlice';
+import tokenNftSlice from '../feature/basicData/BasicDataSlice'
+
 export const store = configureStore({
     reducer: {
         wallet: walletReducer,
+        tokenNft: tokenNftSlice,
     },
 })
 
