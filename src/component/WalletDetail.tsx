@@ -102,22 +102,27 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '../app/store';
 import { setPublicKey, setConnected, setNetwork, setBalance } from '../feature/basicData/BasicDataSlice';
 
-// Helius API balance fetcher
-const getWalletBalance = async (walletAddress: string, network: 'devnet' | 'mainnet' = 'devnet') => {
-    const endpoints: Record<'devnet' | 'mainnet', string> = {
+const getWalletBalance = async (
+    walletAddress: string,
+    network: 'devnet' | 'mainnet-beta' = 'devnet'
+) => {
+    const endpoints: Record<'devnet' | 'mainnet-beta', string> = {
         devnet: 'https://devnet.helius-rpc.com/?api-key=7d9f567a-c6e4-4b94-8ad3-4f8ab1bee448',
-        mainnet: 'https://mainnet.helius-rpc.com/?api-key=7d9f567a-c6e4-4b94-8ad3-4f8ab1bee448',
+        'mainnet-beta': 'https://mainnet.helius-rpc.com/?api-key=7d9f567a-c6e4-4b94-8ad3-4f8ab1bee448',
     };
 
+    // Validate network
     if (!['devnet', 'mainnet-beta'].includes(network)) {
         throw new Error('Invalid network. Use either "devnet" or "mainnet-beta".');
     }
 
+    // Validate wallet address
     if (!walletAddress || typeof walletAddress !== 'string') {
         throw new Error('Invalid wallet address.');
     }
 
     try {
+        // Make the API request
         const response = await fetch(endpoints[network], {
             method: 'POST',
             headers: {
@@ -131,24 +136,34 @@ const getWalletBalance = async (walletAddress: string, network: 'devnet' | 'main
             }),
         });
 
+        // Handle HTTP errors
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
 
         const data = await response.json();
+        console.log('API Response:', data);
 
+        // Handle API errors
         if (data.error) {
             throw new Error(`API error: ${data.error.message}`);
         }
 
-        const balanceInSol = data.result / 1e9; // Convert lamports to SOL
+        // Ensure result exists
+        if (!data.result) {
+            throw new Error('Balance data is missing from the response.');
+        }
+
+        // Convert lamports to SOL
+        const lamports = data.result?.value || 0;
+        const balanceInSol = lamports / 1e9;
+        console.log("lamports : ", lamports)
         return balanceInSol;
     } catch (error) {
         console.error('Error fetching wallet balance:', error);
         throw error;
     }
 };
-
 const Wallet: FC = () => {
     const { connected, disconnect, wallet, publicKey } = useWallet();
     const dispatch = useDispatch<AppDispatch>();
@@ -161,7 +176,7 @@ const Wallet: FC = () => {
             const keyToUse = publicKey?.toBase58() || defaultPublicKey;
 
             try {
-                const solBalance = await getWalletBalance(keyToUse, network as 'devnet' | 'mainnet');
+                const solBalance = await getWalletBalance(keyToUse, network as 'devnet' | 'mainnet-beta');
                 dispatch(setBalance(solBalance));
                 console.log('Wallet public key:', keyToUse, 'Balance:', solBalance);
             } catch (error) {
@@ -199,21 +214,23 @@ const Wallet: FC = () => {
     return (
         <div className='p-10'>
             <h1 className="text-2xl font-semibold mb-6">Connected Wallet</h1>
-            <WalletMultiButton className="mb-4 w-full" />
-            <div className="flex flex-col space-y-4">
+            {/* <WalletMultiButton className="mb-4 w-full" /> */}
+            <div className="flex flex-row space-x-5">
+                <WalletMultiButton className="mb-4 w-full" />
                 <div>
-                    <label htmlFor="network-select" className="block font-medium mb-2">Network:</label>
+                    {/* <label htmlFor="network-select" className="block font-medium mb-2">Network:</label> */}
                     <select
                         id="network-select"
                         value={network}
                         onChange={handleNetworkChange}
-                        className="w-full p-2 bg-gray-700 text-white rounded focus:outline-none"
+                        className=" p-3 bg-gray-700 text-white  focus:outline-none rounded-md"
                     >
-                        <option value="mainnet-beta">Mainnet</option>
-                        <option value="devnet">Devnet</option>
+                        <option value="mainnet-beta" >Mainnet</option>
+                        <option value="devnet" >Devnet</option>
                     </select>
                 </div>
-                <p className="text-sm font-medium">Connection Status: <span className={connected ? "text-green-400" : "text-red-500"}>{connected ? 'Connected' : 'Disconnected'}</span></p>
+
+                {/* <p className="text-sm font-medium">Connection Status: <span className={connected ? "text-green-400" : "text-red-500"}>{connected ? 'Connected' : 'Disconnected'}</span></p>
                 <div className="space-y-2">
                     <div>
                         <p className="text-sm font-medium">Wallet Address:</p>
@@ -226,7 +243,7 @@ const Wallet: FC = () => {
                             Disconnect
                         </button>
                     )}
-                </div>
+                </div> */}
             </div>
         </div>
     );

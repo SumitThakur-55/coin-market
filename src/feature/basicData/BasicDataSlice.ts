@@ -15,7 +15,7 @@ interface WalletState {
 }
 
 const initialState: WalletState = {
-    publicKey: "3PpVyzPmwsoJasW3yCeeJpoXtEfpVcHQKz3hYJG2knJU",
+    publicKey: "",
     // publicKey: '7H2aMNigJrHi5TtXtDtEN9NFQRp5x7GQR48SUWdZ7SnW',
     connected: false,
     network: 'devnet',
