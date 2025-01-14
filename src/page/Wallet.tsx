@@ -1,5 +1,6 @@
-
+import WalletToken from "../component/WalletToken"
 import WalletDetail from "../component/WalletDetail"
+import WalletAsset from "../component/WalletAsset"
 
 export default function Wallet() {
     return (
@@ -8,6 +9,7 @@ export default function Wallet() {
                 <WalletDetail />
             </div>
             <div className="flex-1 p-4 bg-[#151c2b] overflow-hidden sticky ">
+                <WalletAsset />
 
             </div>
         </div>

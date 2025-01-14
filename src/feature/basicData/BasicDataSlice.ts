@@ -15,9 +15,10 @@ interface WalletState {
 }
 
 const initialState: WalletState = {
-    publicKey: "86xCnPeV69n6t3DnyGvkKobf9FdN2H9oiVDdaMpo2MMY",
+    publicKey: "3PpVyzPmwsoJasW3yCeeJpoXtEfpVcHQKz3hYJG2knJU",
+    // publicKey: '7H2aMNigJrHi5TtXtDtEN9NFQRp5x7GQR48SUWdZ7SnW',
     connected: false,
-    network: 'mainnet-beta',
+    network: 'devnet',
     balance: null,
     tokenBalances: [],  // Changed to store only token balances
 };

@@ -241,7 +241,7 @@ const CoinChart: React.FC<CoinChartProps> = ({ coinId, currentPrice }) => {
     return (
         <div>
             <h2 className="m-2 text-3xl font-bold text-white mb-4 ">{coinId.charAt(0).toUpperCase() + coinId.slice(1)} Price Chart</h2>
-            <div className="my-8  bg-[#0D1421] rounded-xl border-2 border-gray-500 p-4 m-2 mx-4">
+            <div className="my-8  bg-[#0D1421] rounded-xl  p-4 m-2 mx-4">
 
                 <div className="flex justify-between items-center mb-4">
                     <div className="flex justify-start space-x-2">
