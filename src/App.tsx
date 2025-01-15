@@ -39,6 +39,8 @@ import { clusterApiUrl } from '@solana/web3.js';
 import Navbar from "./component/Navbar";
 import HomePage from "./component/HomePage";
 import CoinData from "./component/CoinData";
+import Analytics from "./component/Analytics";
+import Transactions from "./component/Transactions";
 import Wallet from "./page/Wallet";
 import '@solana/wallet-adapter-react-ui/styles.css'; // Import Wallet styles
 
@@ -93,6 +95,8 @@ function App() {
                 <Route path="/" element={<HomePage />} />
                 <Route path="/coins/:id" element={<CoinData />} />
                 <Route path="/wallet" element={<Wallet />} />
+                <Route path="/analytics" element={<Analytics />} />
+                <Route path="/transactions" element={<Transactions />} />
               </Routes>
             </div>
           </BrowserRouter>

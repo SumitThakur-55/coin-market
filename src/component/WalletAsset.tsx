@@ -4,6 +4,8 @@ import WalletNft from './WalletNft'
 import { useSelector } from 'react-redux';
 import { RootState } from '../app/store';
 function WalletAsset() {
+    const totalUSD = useSelector((state: RootState) => state.wallet.totalUSD);
+    const balance = useSelector((state: RootState) => state.wallet.balance);
     const publicKey = useSelector((state: RootState) => state.wallet.publicKey);
     return (
         <div>
@@ -12,9 +14,6 @@ function WalletAsset() {
                 publicKey ? < div className="text-white px-4 " >
                     <div className="py-2">
                         <h1 className="text-4xl font-bold">Dashboard</h1>
-                    </div>
-                    <div className="h-20 rounded-2xl p-3 bg-slate-300">
-                        <h1>Net Worth</h1>
                     </div>
                     <WalletToken />
                     <WalletNft />

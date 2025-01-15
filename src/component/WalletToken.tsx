@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../app/store";
-
+import { setTotalUSD } from '../feature/basicData/BasicDataSlice'
+import { setTokenBalances } from '../feature/basicData/BasicDataSlice'
 interface TokenAccount {
     account: string;
     balance: number;
@@ -14,14 +15,18 @@ interface TokenAccount {
 
 const WalletToken: React.FC = () => {
     const ownerAddress = useSelector((state: RootState) => state.wallet.publicKey);
-
+    const totalUSD = useSelector((state: RootState) => state.wallet.totalUSD);  // Access totalUSD from Redux state
+    const dispatch = useDispatch(); // Access totalUSD from Redux state
     const [tokenAccounts, setTokenAccounts] = useState<TokenAccount[] | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     const [currentPage, setCurrentPage] = useState(1); // Current page for pagination
     const itemsPerPage = 7; // Number of rows per page
+    // Total value in USD
+    const apiKey = process.env.REACT_APP_HELIUS_API_KEY;
+    const url = `https://mainnet.helius-rpc.com/?api-key=${apiKey}`;
 
-    const url = `https://mainnet.helius-rpc.com/?api-key=7d9f567a-c6e4-4b94-8ad3-4f8ab1bee448`;
+
 
     const getTokenAccounts = async () => {
         if (!ownerAddress) {
@@ -78,7 +83,12 @@ const WalletToken: React.FC = () => {
                         decimals: item.token_info?.decimals || 0,
                     }));
                 setTokenAccounts(fungibleTokens);
+                dispatch(setTokenBalances(fungibleTokens))
+
+                // console.log("Filtered fungible tokens:", fungibleTokens);
+
             }
+
         } catch (err) {
             setError("An error occurred while fetching data.");
             console.error("Fetch error:", err);
@@ -97,13 +107,23 @@ const WalletToken: React.FC = () => {
         }
     }, [ownerAddress]);
 
+    useEffect(() => {
+        if (tokenAccounts) {
+            const totalUSD = tokenAccounts.reduce((sum, token) => {
+                const readableBalance = token.balance / Math.pow(10, token.decimals);
+                return sum + readableBalance * token.pricePerToken;
+            }, 0);
+            dispatch(setTotalUSD(totalUSD));
+        }
+    }, [tokenAccounts]);
     // Filter and sort the token accounts
     const filteredAccounts = tokenAccounts
-        ?.sort((a, b) => {
+        ? [...tokenAccounts].sort((a, b) => {
             const totalValueA = (a.balance / 10 ** a.decimals) * a.pricePerToken;
             const totalValueB = (b.balance / 10 ** b.decimals) * b.pricePerToken;
             return totalValueB - totalValueA;
-        });
+        })
+        : null;
 
     // Pagination logic applied on the filtered results
     const totalPages = filteredAccounts ? Math.ceil(filteredAccounts.length / itemsPerPage) : 1;
@@ -123,8 +143,9 @@ const WalletToken: React.FC = () => {
         <div className="text-white px-4">
 
             <div>
-                <h1 className="text-3xl font-semibold py-3">Tokens : </h1>
-
+                <div className="my-6">
+                    <h2 className="text-2xl font-bold mb-2 text-gray-100">Wallet  Fungible Token</h2>
+                </div>
                 {error && <p className="text-red-500">{error}</p>}
 
                 {paginatedAccounts && (
@@ -162,8 +183,8 @@ const WalletToken: React.FC = () => {
                                             </td>
                                             <td className="px-6 py-5">{account.symbol}</td>
                                             <td className="px-6 py-5">{readableBalance.toFixed(2)}</td>
-                                            <td className="px-6 py-5">${account.pricePerToken.toFixed(2)}</td>
-                                            <td className="px-6 py-5">${totalValueUSD.toFixed(2)}</td>
+                                            <td className="px-6 py-5">${account.pricePerToken}</td>
+                                            <td className="px-6 py-5">${totalValueUSD}</td>
                                         </tr>
                                     );
                                 })}

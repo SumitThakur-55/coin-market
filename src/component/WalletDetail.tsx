@@ -101,14 +101,17 @@ import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '../app/store';
 import { setPublicKey, setConnected, setNetwork, setBalance } from '../feature/basicData/BasicDataSlice';
-
+import { Link, useLocation } from "react-router-dom";
 const getWalletBalance = async (
     walletAddress: string,
-    network: 'devnet' | 'mainnet-beta' = 'devnet'
+    network: 'devnet' | 'mainnet-beta' = 'mainnet-beta'
 ) => {
+    const apiKey = process.env.REACT_APP_HELIUS_API_KEY;
+
+
     const endpoints: Record<'devnet' | 'mainnet-beta', string> = {
-        devnet: 'https://devnet.helius-rpc.com/?api-key=7d9f567a-c6e4-4b94-8ad3-4f8ab1bee448',
-        'mainnet-beta': 'https://mainnet.helius-rpc.com/?api-key=7d9f567a-c6e4-4b94-8ad3-4f8ab1bee448',
+        devnet: `https://devnet.helius-rpc.com/?api-key=${apiKey}`,
+        'mainnet-beta': `https://mainnet.helius-rpc.com/?api-key=${apiKey}`,
     };
 
     // Validate network
@@ -142,7 +145,7 @@ const getWalletBalance = async (
         }
 
         const data = await response.json();
-        console.log('API Response:', data);
+        // console.log('API Response:', data);
 
         // Handle API errors
         if (data.error) {
@@ -168,7 +171,7 @@ const Wallet: FC = () => {
     const { connected, disconnect, wallet, publicKey } = useWallet();
     const dispatch = useDispatch<AppDispatch>();
     const { network, balance } = useSelector((state: RootState) => state.wallet);
-
+    const totalUSD = useSelector((state: RootState) => state.wallet.totalUSD);
     const defaultPublicKey = '3PpVyzPmwsoJasW3yCeeJpoXtEfpVcHQKz3hYJG2knJU';
 
     useEffect(() => {
@@ -196,56 +199,67 @@ const Wallet: FC = () => {
         }
     }, [dispatch, connected, publicKey, network]);
 
-    const handleDisconnect = async () => {
-        try {
-            await disconnect();
-            dispatch(setBalance(null)); // Clear balance when disconnected
-            dispatch(setConnected(false));
-            console.log('Disconnected from wallet');
-        } catch (error) {
-            console.error('Failed to disconnect:', error);
-        }
-    };
+    // const handleDisconnect = async () => {
+    //     try {
+    //         await disconnect();
+    //         dispatch(setBalance(null)); // Clear balance when disconnected
+    //         dispatch(setConnected(false));
+    //         console.log('Disconnected from wallet');
+    //     } catch (error) {
+    //         console.error('Failed to disconnect:', error);
+    //     }
+    // };
 
-    const handleNetworkChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        dispatch(setNetwork(event.target.value as 'mainnet-beta' | 'devnet'));
-    };
+    // const handleNetworkChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    //     dispatch(setNetwork(event.target.value as 'mainnet-beta' | 'devnet'));
+    // };
 
     return (
-        <div className='p-10'>
-            <h1 className="text-2xl font-semibold mb-6">Connected Wallet</h1>
-            {/* <WalletMultiButton className="mb-4 w-full" /> */}
-            <div className="flex flex-row space-x-5">
-                <WalletMultiButton className="mb-4 w-full" />
-                <div>
-                    {/* <label htmlFor="network-select" className="block font-medium mb-2">Network:</label> */}
+        <div className="p-6 sm:p-8 md:p-10 lg:p-12">
+
+            <div className="flex flex-col sm:flex-row sm:space-x-5 mb-6">
+                <WalletMultiButton style={{ width: '100%', marginBottom: '1rem' }} />
+
+                {/* <div className="w-full sm:w-auto">
                     <select
                         id="network-select"
                         value={network}
                         onChange={handleNetworkChange}
-                        className=" p-3 bg-gray-700 text-white  focus:outline-none rounded-md"
+                        className="w-full sm:w-auto p-3 bg-gray-700 text-white focus:outline-none rounded-md"
                     >
-                        <option value="mainnet-beta" >Mainnet</option>
-                        <option value="devnet" >Devnet</option>
+                        <option value="mainnet-beta">Mainnet</option>
+                        <option value="devnet">Devnet</option>
                     </select>
-                </div>
-
-                {/* <p className="text-sm font-medium">Connection Status: <span className={connected ? "text-green-400" : "text-red-500"}>{connected ? 'Connected' : 'Disconnected'}</span></p>
-                <div className="space-y-2">
-                    <div>
-                        <p className="text-sm font-medium">Wallet Address:</p>
-                        <p className="text-xs break-all">{publicKey?.toBase58() || defaultPublicKey}</p>
-                    </div>
-                    <p className="text-sm font-medium">Total Coins (SOL): <span className="font-bold">{balance !== null ? balance : '0'}</span></p>
-                    <p className="text-sm font-medium">Wallet Name: <span className="font-bold">{wallet?.adapter.name || 'Default'}</span></p>
-                    {connected && (
-                        <button onClick={handleDisconnect} className="w-full mt-4 p-2 bg-red-500 hover:bg-red-600 text-white font-semibold rounded">
-                            Disconnect
-                        </button>
-                    )}
                 </div> */}
             </div>
+
+            <div className="w-full my-6 sm:my-10 bg-gradient-to-r from-purple-500 via-indigo-500 to-blue-500 h-[80px] flex flex-col items-center justify-center rounded-lg p-5 shadow-lg">
+                <h2 className="text-2xl font-bold text-white tracking-wide mb-2">Assets</h2>
+                <span className="text-xl font-medium text-gray-100">
+                    {totalUSD !== null ? `${totalUSD.toFixed(2)} $` : '0 $'}
+                </span>
+            </div>
+
+            <div className="w-full my-6 sm:my-10 bg-gradient-to-r from-purple-500 via-indigo-500 to-blue-500 h-[80px] flex flex-col items-center justify-center rounded-lg p-5 shadow-lg">
+                <h2 className="text-2xl font-bold text-white tracking-wide mb-2">SOL Balance</h2>
+                <span className="text-xl font-medium text-gray-100">
+                    {balance !== null ? `${balance} SOL` : '0 SOL'}
+                </span>
+            </div>
+            <div className='flex flex-col items-center justify-center w-full gap-4 p-6 '>
+                <Link to="/Wallet" className="text-blue-500 hover:text-blue-700 text-lg md:text-xl font-semibold transition duration-300 transform hover:scale-105 bg-[#151c2b] rounded-lg shadow-lg p-3 w-full">
+                    Dashboard
+                </Link>
+                <Link to="/analytics" className="text-blue-500 hover:text-blue-700 text-lg md:text-xl font-semibold transition duration-300 transform hover:scale-105 bg-[#151c2b] rounded-lg shadow-lg p-3 w-full">
+                    Analytics
+                </Link>
+                <Link to="/transactions" className="text-blue-500 hover:text-blue-700 text-lg md:text-xl font-semibold transition duration-300 transform hover:scale-105 bg-[#151c2b] rounded-lg shadow-lg p-3 w-full">
+                    Transactions
+                </Link>
+            </div>
+
         </div>
+
     );
 };
 

@@ -103,7 +103,7 @@ const WalletAssets: React.FC = () => {
 
     if (loading) {
         return (
-            <div className="flex items-center justify-center min-h-[200px]">
+            <div className="flex items-center justify-center min-h-[800px]">
                 <Loader2 className="h-8 w-8 animate-spin text-blue-500" />
                 <span className="ml-2 text-gray-500">Loading assets...</span>
             </div>
@@ -121,8 +121,8 @@ const WalletAssets: React.FC = () => {
     return (
         <div className="container mx-auto p-4">
             <div className="mb-6">
-                <h2 className="text-2xl font-bold mb-2 text-gray-100">Wallet Assets</h2>
-                <p className="text-gray-400">Connected Wallet: {publicKey}</p>
+                <h2 className="text-2xl font-bold mb-2 text-gray-100">Wallet Non Fungible Token</h2>
+
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
