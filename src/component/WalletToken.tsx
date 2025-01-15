@@ -23,9 +23,8 @@ const WalletToken: React.FC = () => {
     const [currentPage, setCurrentPage] = useState(1); // Current page for pagination
     const itemsPerPage = 7; // Number of rows per page
     // Total value in USD
-    const apiKey = process.env.REACT_APP_HELIUS_API_KEY;
+    const apiKey = import.meta.env.VITE_HELIUS_API_KEY;
     const url = `https://mainnet.helius-rpc.com/?api-key=${apiKey}`;
-
 
 
     const getTokenAccounts = async () => {

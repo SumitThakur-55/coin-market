@@ -100,7 +100,7 @@ function Transactions() {
     const [activeTab, setActiveTab] = useState('all');
     const [loading, setLoading] = useState(true); // Loading state
     const address = useSelector((state: RootState) => state.wallet.publicKey);
-    const apiKey = process.env.REACT_APP_HELIUS_API_KEY;
+    const apiKey = import.meta.env.VITE_HELIUS_API_KEY;
 
     useEffect(() => {
         const fetchData = async () => {

@@ -106,8 +106,7 @@ const getWalletBalance = async (
     walletAddress: string,
     network: 'devnet' | 'mainnet-beta' = 'mainnet-beta'
 ) => {
-    const apiKey = process.env.REACT_APP_HELIUS_API_KEY;
-
+    const apiKey = import.meta.env.VITE_HELIUS_API_KEY;
 
     const endpoints: Record<'devnet' | 'mainnet-beta', string> = {
         devnet: `https://devnet.helius-rpc.com/?api-key=${apiKey}`,
