@@ -1,11 +1,11 @@
-import React from 'react'
+
 import WalletToken from './WalletToken'
 import WalletNft from './WalletNft'
 import { useSelector } from 'react-redux';
 import { RootState } from '../app/store';
 function WalletAsset() {
-    const totalUSD = useSelector((state: RootState) => state.wallet.totalUSD);
-    const balance = useSelector((state: RootState) => state.wallet.balance);
+    // const totalUSD = useSelector((state: RootState) => state.wallet.totalUSD);
+    // const balance = useSelector((state: RootState) => state.wallet.balance);
     const publicKey = useSelector((state: RootState) => state.wallet.publicKey);
     return (
         <div>

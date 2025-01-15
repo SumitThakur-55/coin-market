@@ -100,8 +100,8 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '../app/store';
-import { setPublicKey, setConnected, setNetwork, setBalance } from '../feature/basicData/BasicDataSlice';
-import { Link, useLocation } from "react-router-dom";
+import { setPublicKey, setConnected, setBalance } from '../feature/basicData/BasicDataSlice';
+import { Link } from "react-router-dom";
 const getWalletBalance = async (
     walletAddress: string,
     network: 'devnet' | 'mainnet-beta' = 'mainnet-beta'
@@ -167,7 +167,7 @@ const getWalletBalance = async (
     }
 };
 const Wallet: FC = () => {
-    const { connected, disconnect, wallet, publicKey } = useWallet();
+    const { connected, publicKey } = useWallet();
     const dispatch = useDispatch<AppDispatch>();
     const { network, balance } = useSelector((state: RootState) => state.wallet);
     const totalUSD = useSelector((state: RootState) => state.wallet.totalUSD);

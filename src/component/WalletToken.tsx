@@ -15,7 +15,7 @@ interface TokenAccount {
 
 const WalletToken: React.FC = () => {
     const ownerAddress = useSelector((state: RootState) => state.wallet.publicKey);
-    const totalUSD = useSelector((state: RootState) => state.wallet.totalUSD);  // Access totalUSD from Redux state
+    // const totalUSD = useSelector((state: RootState) => state.wallet.totalUSD);  // Access totalUSD from Redux state
     const dispatch = useDispatch(); // Access totalUSD from Redux state
     const [tokenAccounts, setTokenAccounts] = useState<TokenAccount[] | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
@@ -146,7 +146,7 @@ const WalletToken: React.FC = () => {
                     <h2 className="text-2xl font-bold mb-2 text-gray-100">Wallet  Fungible Token</h2>
                 </div>
                 {error && <p className="text-red-500">{error}</p>}
-
+                {loading && <p className="text-white">Loading...</p>}
                 {paginatedAccounts && (
                     <div className="overflow-x-auto mt-4">
                         <table className="min-w-full table-auto text-white bg-[#222531] rounded-xl overflow-hidden">
